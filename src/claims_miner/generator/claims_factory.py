@@ -124,9 +124,7 @@ def _inject_errors(
         {"claim_id": claims["claim_id"], "injected_error": None, "is_preventable": False}
     )
 
-    dup_rows: list[pd.Series] = []
-
-    for idx, err in zip(error_idx, assigned):
+    for idx, err in zip(error_idx, assigned, strict=True):
         row = claims.index[idx]
         if err == "missing_auth":
             # Force into an auth-required department, then blank the auth.
@@ -168,8 +166,5 @@ def _inject_errors(
             )
         labels.iloc[idx, labels.columns.get_loc("injected_error")] = err
         labels.iloc[idx, labels.columns.get_loc("is_preventable")] = True
-
-    if dup_rows:  # pragma: no cover - reserved for future duplicate variants
-        pass
 
     return labels

@@ -42,3 +42,8 @@ src = ["src", "tests"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "W", "B"]
+
+[tool.ruff.lint.per-file-ignores]
+# reference_data.py holds aligned tabular literals (procedure and payer
+# tables); column alignment beats a 100-char limit for review readability.
+"src/claims_miner/generator/reference_data.py" = ["E501"]
