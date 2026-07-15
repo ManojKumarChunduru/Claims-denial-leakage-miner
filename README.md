@@ -10,7 +10,7 @@
 ## What this solves
 
 - Denied claims hide preventable revenue loss: this tool classifies each denied claim into one of six preventable root causes and quantifies the dollars, flagging $5.57M of $7.28M denied dollars as preventable in the included 10K-claim dataset.
-- Remit codes lie: 20% of denials in the dataset carry a generic CARC 16, so the rules anchor on claim attributes first and use CARC codes only as corroboration, keeping root cause attribution at 99.1%.
+- Remit codes lie: 13.4% of preventable denials in the dataset arrive with a generic or mismatched CARC code (mostly CARC 16, "claim lacks information"), so the rules anchor on claim attributes first and use CARC codes only as corroboration, keeping root cause attribution at 99.1%.
 - Denial reports without evidence are opinions: a labeled synthetic claims generator provides ground truth, so precision, recall, and cause accuracy are measured numbers, not aspirations.
 
 ## Executive summary

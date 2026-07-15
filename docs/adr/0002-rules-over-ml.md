@@ -32,8 +32,8 @@ Deterministic rules, evaluated in fixed precedence order.
   correct root cause attribution on the labeled set.
 - Rules fire on day one with no training data. A model needs months of
   labeled denials, and labels in the wild are exactly the noisy CARC
-  codes this project demonstrates are unreliable (20% of injected
-  denials carry a generic code).
+  codes this project demonstrates are unreliable (13.4% of preventable
+  denials in the generated dataset carry a generic or mismatched code).
 
 ## Consequences
 
