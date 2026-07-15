@@ -1,0 +1,100 @@
+{
+  "run_at": "2026-07-15T22:29:15.931321+00:00",
+  "machine": {
+    "platform": "Linux-6.18.5-x86_64-with-glibc2.39",
+    "python": "3.12.3",
+    "duckdb": "1.5.4",
+    "cpu_count": 1,
+    "ram_gb": 3.9
+  },
+  "note": "Throughput covers ingest + models + detect. Generation is excluded: production claims arrive from the billing system.",
+  "steps": [
+    {
+      "n_claims": 10000,
+      "timings_seconds": {
+        "generate": 1.007,
+        "ingest": 0.077,
+        "models": 0.047,
+        "detect": 0.023,
+        "score": 0.053
+      },
+      "model_timings_seconds": {
+        "stg_claims": 0.002,
+        "stg_remits": 0.001,
+        "fct_denials": 0.019,
+        "fct_leakage": 0.005,
+        "mart_rcm_kpis": 0.018
+      },
+      "pipeline_seconds": 0.146,
+      "claims_per_second": 68287,
+      "detection_metrics": {
+        "true_positives": 1200,
+        "false_positives": 5,
+        "false_negatives": 0,
+        "precision": 0.9959,
+        "recall": 1.0,
+        "f1": 0.9979,
+        "cause_accuracy": 0.9908,
+        "dollar_recall": 1.0
+      }
+    },
+    {
+      "n_claims": 100000,
+      "timings_seconds": {
+        "generate": 13.162,
+        "ingest": 0.606,
+        "models": 0.273,
+        "detect": 0.136,
+        "score": 0.044
+      },
+      "model_timings_seconds": {
+        "stg_claims": 0.001,
+        "stg_remits": 0.002,
+        "fct_denials": 0.151,
+        "fct_leakage": 0.01,
+        "mart_rcm_kpis": 0.107
+      },
+      "pipeline_seconds": 1.015,
+      "claims_per_second": 98515,
+      "detection_metrics": {
+        "true_positives": 12000,
+        "false_positives": 58,
+        "false_negatives": 0,
+        "precision": 0.9952,
+        "recall": 1.0,
+        "f1": 0.9976,
+        "cause_accuracy": 0.9918,
+        "dollar_recall": 1.0
+      }
+    },
+    {
+      "n_claims": 500000,
+      "timings_seconds": {
+        "generate": 157.054,
+        "ingest": 2.783,
+        "models": 0.763,
+        "detect": 0.411,
+        "score": 0.379
+      },
+      "model_timings_seconds": {
+        "stg_claims": 0.026,
+        "stg_remits": 0.002,
+        "fct_denials": 0.496,
+        "fct_leakage": 0.012,
+        "mart_rcm_kpis": 0.225
+      },
+      "pipeline_seconds": 3.957,
+      "claims_per_second": 126369,
+      "detection_metrics": {
+        "true_positives": 60000,
+        "false_positives": 330,
+        "false_negatives": 0,
+        "precision": 0.9945,
+        "recall": 1.0,
+        "f1": 0.9973,
+        "cause_accuracy": 0.9922,
+        "dollar_recall": 1.0
+      }
+    }
+  ]
+}
