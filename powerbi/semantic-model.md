@@ -41,6 +41,6 @@ See `measures.dax`. Paste each into a measure on the noted table.
 ## Screenshots
 
 After the report is built, export page screenshots to
-`powerbi/screenshots/` and link them from the README section "Dashboard".
-Until then that section deliberately shows the semantic model instead of
+`powerbi/screenshots/` and link them from the README "Dashboard" section.
+Until then the README Dashboard section points here instead of showing
 placeholder images.

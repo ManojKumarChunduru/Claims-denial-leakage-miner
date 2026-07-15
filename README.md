@@ -63,6 +63,7 @@ Prerequisites: Python 3.11+, pip.
 ```bash
 git clone https://github.com/ManojKumarChunduru/claims-denial-leakage-miner.git
 cd claims-denial-leakage-miner
+python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -e ".[dev]"
 claims-miner all        # generate -> ingest -> models -> detect -> export -> score
 pytest                  # 23 tests
@@ -93,6 +94,10 @@ xychart-beta
 Throughput rises with volume because DuckDB's columnar engine amortizes fixed costs; the knee will arrive when the working set outgrows RAM (well beyond 500K claims at this schema width on this container). The honest slow spot is the generator itself: error injection is a row-wise Python loop and takes 157 seconds at 500K claims. It is excluded from pipeline throughput for the reason above, and vectorizing it is listed under Future work.
 
 A note on recall: 100% is real but partly a property of the synthetic world, where every injected error leaves a clean attribute trace and payers reliably code duplicates as CARC 18. Real-world recall would be lower because real errors are messier; the precision and cause accuracy figures are the better predictors of field behavior.
+
+## Dashboard
+
+The pipeline exports four parquet tables to `powerbi/export/` as the feed for a Power BI revenue cycle command center. The [`powerbi/`](powerbi/) folder contains the full semantic model spec (star schema, relationships, three report pages) and every DAX measure as text in [`measures.dax`](powerbi/measures.dax), so the report is reproducible from this repo alone. Screenshots of the built report land in `powerbi/screenshots/` once published; until then the semantic model document is the source of truth for what the dashboard shows: denial rate and first pass yield trends, a payer by root cause leakage matrix weighted by denied dollars, and a decomposition tree from preventable dollars down to department.
 
 ## Architecture decisions
 
