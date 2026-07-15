@@ -1,0 +1,28 @@
+# Optional: a Postgres instance for teams that want the mart tables in a
+# served database instead of DuckDB/parquet (for example, to point an
+# on-prem Power BI gateway or SSRS at a SQL endpoint).
+#
+# The core pipeline needs NO services: DuckDB runs in-process. This file
+# exists only for the export path described in docs/adr/0001.
+#
+#   docker compose up -d
+#   python scripts/load_postgres.py   # loads powerbi/export/*.parquet
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: claims
+      POSTGRES_PASSWORD: claims_local_only
+      POSTGRES_DB: claims_marts
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U claims -d claims_marts"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  pgdata:
