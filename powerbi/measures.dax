@@ -1,0 +1,57 @@
+-- Table: fct_denials unless noted. All measures assume the star schema
+-- in semantic-model.md.
+
+Denied Dollars =
+SUM ( fct_denials[denied_amount] )
+
+Denied Claims =
+COUNTROWS ( fct_denials )
+
+Preventable Dollars =
+SUM ( detected_leakage[denied_amount] )
+
+Preventable Claims =
+COUNTROWS ( detected_leakage )
+
+Preventable Share of Denied $ =
+DIVIDE ( [Preventable Dollars], [Denied Dollars] )
+
+-- Table: mart_rcm_kpis
+Denial Rate =
+DIVIDE (
+    SUM ( mart_rcm_kpis[denied_claims] ),
+    SUM ( mart_rcm_kpis[total_claims] )
+)
+
+First Pass Yield =
+1 - [Denial Rate]
+
+Billed Dollars =
+SUM ( mart_rcm_kpis[billed_dollars] )
+
+Paid Dollars =
+SUM ( mart_rcm_kpis[paid_dollars] )
+
+Net Collection Proxy =
+DIVIDE ( [Paid Dollars], [Billed Dollars] - [Denied Dollars mart] )
+
+Denied Dollars mart =
+SUM ( mart_rcm_kpis[denied_dollars] )
+
+-- Top offender label for cards (table: detected_leakage)
+Top Leakage Pattern =
+VAR t =
+    TOPN (
+        1,
+        SUMMARIZE (
+            detected_leakage,
+            detected_leakage[payer_name],
+            detected_leakage[detected_cause]
+        ),
+        CALCULATE ( SUM ( detected_leakage[denied_amount] ) ), DESC
+    )
+RETURN
+    CONCATENATEX (
+        t,
+        detected_leakage[payer_name] & " / " & detected_leakage[detected_cause]
+    )
