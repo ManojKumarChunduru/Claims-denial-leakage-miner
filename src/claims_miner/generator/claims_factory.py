@@ -158,7 +158,12 @@ def _inject_errors(
             claims.at[row, "icd10_code"] = str(rng.choice(invalid_pool))
         elif err == "missing_modifier":
             # Force onto a modifier-required procedure, then blank it.
+            # The diagnosis must be re-drawn from the NEW procedure's valid
+            # set, otherwise the claim silently carries a second error
+            # (invalid dx pair) and the injected label lies about the
+            # claim's true root cause.
             claims.at[row, "cpt_code"] = "27447"
+            claims.at[row, "icd10_code"] = str(rng.choice(ref.PROCEDURES["27447"]["valid_dx"]))
             claims.at[row, "modifier"] = None
         elif err == "coverage_termed":
             claims.at[row, "coverage_end_date"] = claims.at[row, "service_date"] - pd.Timedelta(
