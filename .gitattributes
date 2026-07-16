@@ -1,0 +1,3 @@
+# Linguist hides SQL (data type) from the language bar; the layered
+# models are core pipeline logic, so make them count.
+*.sql linguist-detectable=true linguist-language=SQL
